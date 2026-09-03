@@ -11,26 +11,31 @@ All tokens centralized in `src/styles.css` (oklch), so the palette can be swappe
 ## What gets built
 
 ### Public site
+
 - `/` — landing: header nav (Product, How It Works, Pricing, Sign in, Get started), hero ("Websites for local businesses, without the hassle."), How It Works (Add your business → Choose your website → Publish), Product Preview rendered from the real app shell UI (a static, honest composition of our own components — no invented analytics), Capabilities section describing planned features and labelling what is not live yet, final CTA, footer.
 - `/product`, `/how-it-works`, `/pricing` — real routes with their own metadata and honest copy. Pricing shows the intended structure with a clear "pricing not final" note rather than invented numbers presented as live.
 - `/signin`, `/signup` — static forms, accessible and labelled, wired to nothing, with a visible note that accounts arrive in Stage 02. No fake auth, no local session faking.
 
 ### Customer app shell
+
 Layout with sidebar + mobile drawer nav, tenant switcher placeholder, at routes:
 `/app`, `/app/website`, `/app/business`, `/app/leads`, `/app/reviews`, `/app/domain`, `/app/billing`, `/app/support`, `/app/settings`.
 Each non-implemented page uses a shared `ModuleStub` component stating plainly what it will do and which stage delivers it.
 
 ### Admin app shell
+
 Same shell pattern, distinct chrome, at:
 `/admin`, `/admin/customers`, `/admin/websites`, `/admin/templates`, `/admin/domains`, `/admin/leads`, `/admin/billing`, `/admin/support`, `/admin/analytics`, `/admin/settings`.
 
 Both shells are unauthenticated placeholders today; the route structure is prepared so an auth gate can wrap them in Stage 02. This is documented, not disguised.
 
 ### Domain model and template registry (types only, no fake services)
+
 `src/domain/`: `business.ts`, `website.ts`, `template.ts`, `content.ts`, `customization.ts`, `lead.ts`, `domain.ts`, `subscription.ts`, plus `tenant.ts` for the `businessId` ownership convention.
 `src/templates/registry.ts`: typed registry with section descriptors, niche, version, status, preview — registered with one placeholder cleaning template entry so adding Cleaning 01/02/03 later needs no refactor. Business data is never embedded in a template; templates declare sections and read from `WebsiteContent`.
 
 ### Config, SEO, docs
+
 - `.env.example` with placeholder names only (database, storage, email, Whop, Google, domain provider, Cloudflare, monitoring). No secrets committed.
 - `public/robots.txt` updated; `/sitemap.xml` served as a route generated from the public route list.
 - Per-route `head()` metadata: unique title, description, og/twitter tags, canonical.
@@ -47,4 +52,18 @@ Both shells are unauthenticated placeholders today; the route structure is prepa
 
 ## Explicitly not in this stage
 
-Billing, domain purchase/connect, Google Business Profile, reviews sync, lead capture and CRM, support tickets, website editor and publishing, real authentication, database provisioning.
+Billing, domain purchase/connect, Google Business Profile, reviews sync, lead capture and CRM, support tickets, website editor and publishing, real authentication, database provisioning.  
+  
+So I'd add one sentence:
+
+> **Bun is only the current Lovable development/toolchain constraint. Do not introduce Bun-specific application/runtime dependencies or APIs. Keep the application portable to Node.js LTS and npm for future Hostinger deployment.**
+
+That prevents the exact kind of deployment headache you had previously.
+
+### Also: don't let Lovable go beyond Day 1
+
+This is probably the **most important instruction**:
+
+> **Do not implement Stage 02 or any backend/auth/database functionality even if it appears easy or necessary. Stop after completing the Day 1 scope.**
+
+Otherwise an AI builder may see the routes and start adding Supabase/auth/mock data automatically.
