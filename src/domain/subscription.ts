@@ -8,7 +8,7 @@ export interface Subscription extends TenantOwned {
   status: SubscriptionStatus;
   /** Identifier from the payment provider. No card data is ever stored here. */
   providerSubscriptionId: string | null;
-  currentPeriodEnd: string | null
+  currentPeriodEnd: string | null;
   cancelAtPeriodEnd: boolean;
 }
 
