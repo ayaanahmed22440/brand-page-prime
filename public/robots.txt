@@ -12,3 +12,8 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Disallow: /app
+Disallow: /admin
+
+Sitemap: https://brand-page-prime.lovable.app/sitemap.xml
