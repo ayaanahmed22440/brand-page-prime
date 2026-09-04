@@ -3,7 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { MarketingPage, Section, SectionHeading } from "@/components/marketing/MarketingPage";
 import { Button } from "@/components/ui/button";
 import { CAPABILITIES } from "@/lib/site";
-import { TEMPLATES } from "@/templates/registry";
+import { listTemplates } from "@/templates/registry";
 
 export const Route = createFileRoute("/product")({
   head: () => ({
@@ -52,7 +52,7 @@ function ProductPage() {
           description="The template registry is in place so new designs can be added without changing the application."
         />
         <ul className="mt-10 divide-y divide-border rounded-md border border-border">
-          {TEMPLATES.map((template) => (
+          {listTemplates({ includeUnpublished: true }).map((template) => (
             <li key={template.id} className="flex flex-wrap items-baseline justify-between gap-3 p-5">
               <div>
                 <h3 className="text-base font-semibold text-foreground">{template.name}</h3>
